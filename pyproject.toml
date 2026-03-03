@@ -1,0 +1,25 @@
+[project]
+name = "065-lg1-top1-backend"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = "3.13.11"
+dependencies = [
+    "fastapi (>=0.129.0,<0.130.0)",
+    "uvicorn[standard] (>=0.40.0,<0.41.0)",
+    "langgraph (>=1.0.8,<2.0.0)",
+    "langchain-openai (>=1.1.9,<2.0.0)",
+    "langchain-core (>=1.2.12,<2.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "pydantic (>=2.12.5,<3.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "065_lg1_top1_backend", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
