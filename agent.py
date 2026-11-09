@@ -14,7 +14,8 @@ from langgraph.graph import StateGraph, MessagesState, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.memory import InMemorySaver
 
-# Load environment variables (the OpenAI API key)
+# Load environment variables (the OpenAI API key).
+# Your .env file must contain the line OPENAI_API_KEY=...
 load_dotenv()
 
 
@@ -154,7 +155,21 @@ tools = [check_order_status, lookup_return_policy, process_return_request]
 # 3. THE LLM (the agent's brain)
 # ============================================================
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# Original version: this example used gpt-4o-mini.
+# OpenAI has deprecated it (shutdown on January 14, 2027) and recommends
+# gpt-6-luna as its replacement: small, fast and affordable for practice.
+MODEL = "gpt-6-luna"
+
+# The original example used temperature=0 to get more stable answers.
+# Recent OpenAI models are reasoning models and only accept the default
+# value (1), so we set temperature=1 explicitly.
+#
+# This agent uses tools. Through the Chat Completions endpoint, which
+# LangChain uses by default, gpt-6-luna only accepts tools when reasoning
+# is turned off, so we set reasoning_effort="none". The model then answers
+# directly, like gpt-4o-mini did. (The other option OpenAI offers is the
+# Responses API: ChatOpenAI(model=MODEL, use_responses_api=True).)
+llm = ChatOpenAI(model=MODEL, temperature=1, reasoning_effort="none")
 llm_with_tools = llm.bind_tools(tools)
 
 SYSTEM_PROMPT = """You are a friendly and helpful customer service agent for BigCompany Inc., \
